@@ -2,7 +2,7 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 android_sdk_repository(
     name = "androidsdk",
-    api_level = 28,
+    api_level = 33,
 )
 
 # BEGIN io_bazel_rules_kotlin
@@ -38,11 +38,17 @@ load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 maven_install(
     artifacts = [
+        "androidx.annotation:annotation:jar:1.5.0-LOCAL",
         "androidx.appcompat:appcompat:1.0.2",
         "androidx.core:core-ktx:1.0.1",
     ],
+    fail_on_missing_checksum = False,
     repositories = [
         "https://maven.google.com",
         "https://repo1.maven.org/maven2",
+        "m2Local"
     ],
+    maven_install_json = "@//:maven_install.json",
 )
+load("@maven//:defs.bzl", "pinned_maven_install")
+pinned_maven_install()
